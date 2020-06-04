@@ -434,6 +434,5 @@ $RECYCLE.BIN/
 
 CompanyEmployees/appsettings.json
 CompanyEmployees/appsettings.Development.json
-CompanyEmployees/logs/2020-05-15_logfile.txt
-CompanyEmployees/internal_logs/internallog.txt
-CompanyEmployees/logs/2020-06-02_logfile.txt
+CompanyEmployees/logs/*
+CompanyEmployees/internal_logs/*
