@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Contracts;
 using Entities.DTOs;
+using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -36,7 +37,7 @@ namespace CompanyEmployees.Controllers
             return Ok(companiesDto);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "CompanyById)")]
         public IActionResult GetCompany(Guid id)
         {
             var company = _repo.Company.GetCompany(id, trackChanges: false);
@@ -49,6 +50,25 @@ namespace CompanyEmployees.Controllers
                 var companyDto = _mapper.Map<CompanyDto>(company);
                 return Ok(companyDto);
             }
+        }
+
+        [HttpPost]
+        public IActionResult CreateCompany([FromBody] CompanyForCreationDto company)
+        {
+            if (company == null)
+            {
+                _logger.LogError("CompanyForCreationDto object sent from client is null.");
+                return BadRequest("CompanyForCreationDto object is null");
+            }
+
+            var companyEntity = _mapper.Map<Company>(company);
+
+            _repo.Company.CreateCompany(companyEntity);
+            _repo.Save();
+
+            var companyToReturn = _mapper.Map<CompanyDto>(companyEntity);
+
+            return Ok(companyToReturn);
         }
     }
 }
