@@ -37,7 +37,7 @@ namespace CompanyEmployees.Controllers
             return Ok(companiesDto);
         }
 
-        [HttpGet("{id}", Name = "CompanyById)")]
+        [HttpGet("{id}", Name = "CompanyById")]
         public IActionResult GetCompany(Guid id)
         {
             var company = _repo.Company.GetCompany(id, trackChanges: false);
@@ -68,7 +68,7 @@ namespace CompanyEmployees.Controllers
 
             var companyToReturn = _mapper.Map<CompanyDto>(companyEntity);
 
-            return Ok(companyToReturn);
+            return CreatedAtRoute("CompanyById", new { id = companyToReturn.Id }, companyToReturn);
         }
     }
 }
